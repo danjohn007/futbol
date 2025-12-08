@@ -1,0 +1,41 @@
+# Archivos de configuración con datos sensibles
+config/local_config.php
+
+# Archivos subidos por usuarios
+public/uploads/*
+!public/uploads/.gitkeep
+
+# Logs
+*.log
+
+# Caché
+cache/
+tmp/
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Composer
+vendor/
+composer.lock
+
+# NPM
+node_modules/
+package-lock.json
+
+# Backups de base de datos
+*.sql.backup
+*.sql.gz
+
+# Archivos temporales
+*.tmp
+*.bak
+*.swp
+*~
