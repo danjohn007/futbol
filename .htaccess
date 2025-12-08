@@ -4,7 +4,10 @@ Options -Indexes
     RewriteEngine On
     
     # Detectar la base del directorio automáticamente
-    RewriteBase /
+    # RewriteBase se omite para que Apache detecte automáticamente la base
+    # Si necesitas especificarlo manualmente, descomenta y ajusta la siguiente línea:
+    # RewriteBase /
+    # Para subdirectorios, usa algo como: RewriteBase /futbol/
     
     # Redirigir HTTP a HTTPS (opcional, comentar si no se usa SSL)
     # RewriteCond %{HTTPS} off

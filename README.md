@@ -241,10 +241,13 @@ Una vez dentro del sistema como SUPERADMIN, accede a **Configuración** para per
 - Asegúrate de que MySQL esté corriendo
 - Verifica que la base de datos `futbol_torneos` exista
 
-### URLs no funcionan (404)
+### URLs no funcionan (404) - Error en auth/login
 - Verifica que mod_rewrite esté habilitado
 - Verifica que `.htaccess` exista en la raíz
 - Verifica permisos del archivo `.htaccess`
+- El `.htaccess` está configurado para detectar automáticamente la URL base
+- Si instalaste en un subdirectorio y sigues teniendo 404, verifica que AllowOverride esté en All
+- Si necesitas forzar una base específica, edita `.htaccess` y descomenta la línea `RewriteBase`
 
 ### Error al subir archivos
 - Verifica permisos del directorio `public/uploads`
