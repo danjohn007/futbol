@@ -78,13 +78,18 @@
                             $sampleData = str_replace('USE futbol_torneos;', '', $sampleData);
                             $pdo->exec($sampleData);
                             
-                            // Actualizar archivo de configuración
+                            // Actualizar archivo de configuración con escapado seguro
                             $configFile = __DIR__ . '/config/config.php';
                             $configContent = file_get_contents($configFile);
+                            // Escapar valores para evitar inyección de código
+                            $host = addslashes($host);
+                            $name = addslashes($name);
+                            $user = addslashes($user);
+                            $pass = addslashes($pass);
                             $configContent = preg_replace("/define\('DB_HOST', '.*?'\);/", "define('DB_HOST', '$host');", $configContent);
                             $configContent = preg_replace("/define\('DB_NAME', '.*?'\);/", "define('DB_NAME', '$name');", $configContent);
                             $configContent = preg_replace("/define\('DB_USER', '.*?'\);/", "define('DB_USER', '$user');", $configContent);
-                            $configContent = preg_replace("/define\('DB_PASS', '.*?'\);/", "define('DB_PASS', '$pass');", $configContent);
+                            $configContent = preg_replace("/define\('DB_PASS', '$pass');/", "define('DB_PASS', '$pass');", $configContent);
                             file_put_contents($configFile, $configContent);
                             
                             echo '<div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">';

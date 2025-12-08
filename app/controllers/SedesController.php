@@ -41,10 +41,13 @@ class SedesController extends Controller {
             $this->redirect('sedes');
         }
         
+        $configuracionModel = $this->model('Configuracion');
+        
         $data = [
             'title' => 'Detalles de Sede',
             'user' => $this->getCurrentUser(),
-            'sede' => $sede
+            'sede' => $sede,
+            'config' => $configuracionModel->getAllGrouped()
         ];
         
         $this->view('layouts/header', $data);

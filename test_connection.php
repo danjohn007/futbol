@@ -61,13 +61,14 @@ echo "<div class='mb-4 p-4 border rounded'>";
 echo "<h2 class='text-xl font-semibold mb-2'>Permisos de escritura</h2>";
 $uploadPath = PUBLIC_PATH . '/uploads';
 if (!file_exists($uploadPath)) {
-    mkdir($uploadPath, 0755, true);
+    // Usar 0750 para mayor seguridad (rwxr-x---)
+    mkdir($uploadPath, 0750, true);
 }
 if (is_writable($uploadPath)) {
     echo "<p class='text-green-600'>✓ Directorio de uploads escribible</p>";
 } else {
     echo "<p class='text-red-600'>✗ Directorio de uploads NO escribible</p>";
-    echo "<p class='text-sm text-gray-600'>Ejecuta: chmod -R 755 " . $uploadPath . "</p>";
+    echo "<p class='text-sm text-gray-600'>Ejecuta: chmod -R 750 " . $uploadPath . "</p>";
 }
 echo "</div>";
 

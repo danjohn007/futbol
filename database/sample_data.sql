@@ -125,7 +125,8 @@ INSERT INTO configuracion (clave, valor, tipo, descripcion) VALUES
 ('smtp_user', '', 'text', 'Usuario SMTP'),
 ('smtp_pass', '', 'text', 'Contraseña SMTP'),
 ('enable_notifications', '1', 'boolean', 'Habilitar notificaciones'),
-('qr_api_key', '', 'text', 'API Key para generación de QR');
+('qr_api_key', '', 'text', 'API Key para generación de QR'),
+('google_maps_api_key', '', 'text', 'API Key de Google Maps');
 
 -- Inicializar tabla de posiciones para el torneo 1
 INSERT INTO tabla_posiciones (torneo_id, equipo_id) VALUES

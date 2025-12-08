@@ -110,15 +110,28 @@
             <h2 class="text-xl font-bold mb-4">Ubicación</h2>
             <?php if ($sede['latitud'] && $sede['longitud']): ?>
             <div class="aspect-w-16 aspect-h-9 bg-gray-200 rounded">
+                <?php
+                // Usar API key de configuración si está disponible
+                $mapsApiKey = $config['google_maps_api_key'] ?? '';
+                if ($mapsApiKey):
+                ?>
                 <iframe
                     width="100%"
                     height="300"
                     frameborder="0"
                     style="border:0"
                     referrerpolicy="no-referrer-when-downgrade"
-                    src="https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=<?= $sede['latitud'] ?>,<?= $sede['longitud'] ?>"
+                    src="https://www.google.com/maps/embed/v1/place?key=<?= htmlspecialchars($mapsApiKey) ?>&q=<?= $sede['latitud'] ?>,<?= $sede['longitud'] ?>"
                     allowfullscreen>
                 </iframe>
+                <?php else: ?>
+                <div class="flex items-center justify-center h-full text-gray-500">
+                    <p class="text-center">
+                        <i class="fas fa-map-marked-alt text-4xl mb-2"></i><br>
+                        Configura la API de Google Maps en Configuración
+                    </p>
+                </div>
+                <?php endif; ?>
             </div>
             <p class="text-xs text-gray-500 mt-2">
                 Coordenadas: <?= $sede['latitud'] ?>, <?= $sede['longitud'] ?>

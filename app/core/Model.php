@@ -1,6 +1,9 @@
 <?php
 /**
  * Modelo base para todos los modelos
+ * 
+ * SEGURIDAD: $table debe ser definido en las clases hijas como una constante
+ * o propiedad protected. NUNCA debe ser asignado desde entrada del usuario.
  */
 class Model {
     protected $db;
