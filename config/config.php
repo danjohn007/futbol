@@ -14,9 +14,9 @@ function getBaseUrl() {
 
 // Configuración de la base de datos
 define('DB_HOST', 'localhost');
-define('DB_NAME', 'futbol_torneos');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+define('DB_NAME', 'residenc_futbol');
+define('DB_USER', 'residenc_futbol');
+define('DB_PASS', 'Danjohn007');
 define('DB_CHARSET', 'utf8mb4');
 
 // URL base del sistema
