@@ -30,7 +30,7 @@ class SedesController extends Controller {
         $this->view('layouts/footer');
     }
     
-    public function view($id) {
+    public function detalle($id) {
         $this->checkRole(['SUPERADMIN', 'ADMIN_SEDE']);
         
         $sedeModel = $this->model('Sede');

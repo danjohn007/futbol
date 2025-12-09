@@ -35,7 +35,7 @@ class EquiposController extends Controller {
         $this->view('layouts/footer');
     }
     
-    public function view($id) {
+    public function detalle($id) {
         $equipoModel = $this->model('Equipo');
         $equipo = $equipoModel->getConDelegado($id);
         

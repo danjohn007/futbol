@@ -43,7 +43,7 @@
             <?php endif; ?>
         </div>
         
-        <a href="<?= BASE_URL ?>/equipos/view/<?= $equipo['id'] ?>" class="block text-center bg-primary text-white py-2 rounded hover:bg-secondary transition">
+        <a href="<?= BASE_URL ?>/equipos/detalle/<?= $equipo['id'] ?>" class="block text-center bg-primary text-white py-2 rounded hover:bg-secondary transition">
             Ver Equipo
         </a>
     </div>

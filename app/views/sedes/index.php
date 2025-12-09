@@ -42,7 +42,7 @@
             </div>
             
             <div class="flex space-x-2">
-                <a href="<?= BASE_URL ?>/sedes/view/<?= $sede['id'] ?>" 
+                <a href="<?= BASE_URL ?>/sedes/detalle/<?= $sede['id'] ?>" 
                    class="flex-1 text-center bg-blue-500 text-white py-2 rounded hover:bg-blue-600 transition">
                     <i class="fas fa-eye mr-1"></i>Ver
                 </a>

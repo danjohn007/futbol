@@ -41,7 +41,7 @@ class PartidosController extends Controller {
         $this->view('layouts/footer');
     }
     
-    public function view($id) {
+    public function detalle($id) {
         $partidoModel = $this->model('Partido');
         $partido = $partidoModel->getDetalle($id);
         

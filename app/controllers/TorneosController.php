@@ -37,7 +37,7 @@ class TorneosController extends Controller {
         $this->view('layouts/footer');
     }
     
-    public function view($id) {
+    public function detalle($id) {
         $torneoModel = $this->model('Torneo');
         $torneo = $torneoModel->getCompleto($id);
         
