@@ -49,7 +49,7 @@
             </p>
             <?php endif; ?>
             
-            <a href="<?= BASE_URL ?>/partidos/view/<?= $partido['id'] ?>" class="block text-center bg-primary text-white py-2 rounded hover:bg-secondary transition">
+            <a href="<?= BASE_URL ?>/partidos/detalle/<?= $partido['id'] ?>" class="block text-center bg-primary text-white py-2 rounded hover:bg-secondary transition">
                 Ver Detalles
             </a>
         </div>
@@ -86,7 +86,7 @@
                 </div>
             </div>
             
-            <a href="<?= BASE_URL ?>/partidos/view/<?= $partido['id'] ?>" class="block text-center bg-gray-200 text-gray-700 py-2 rounded hover:bg-gray-300 transition">
+            <a href="<?= BASE_URL ?>/partidos/detalle/<?= $partido['id'] ?>" class="block text-center bg-gray-200 text-gray-700 py-2 rounded hover:bg-gray-300 transition">
                 Ver Estadísticas
             </a>
         </div>

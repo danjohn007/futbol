@@ -43,7 +43,7 @@
                 <p><i class="fas fa-user mr-2"></i>Org: <?= htmlspecialchars($torneo['organizador_nombre']) ?></p>
             </div>
             
-            <a href="<?= BASE_URL ?>/torneos/view/<?= $torneo['id'] ?>" class="block text-center bg-primary text-white py-2 rounded hover:bg-secondary transition">
+            <a href="<?= BASE_URL ?>/torneos/detalle/<?= $torneo['id'] ?>" class="block text-center bg-primary text-white py-2 rounded hover:bg-secondary transition">
                 Ver Detalles
             </a>
         </div>
