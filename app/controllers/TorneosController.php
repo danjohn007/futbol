@@ -58,12 +58,107 @@ class TorneosController extends Controller {
             'torneo' => $torneo,
             'equipos' => $equipos,
             'tabla' => $tabla,
-            'partidos' => $partidos
+            'partidos' => $partidos,
+            'flash' => $this->getFlash()
         ];
         
         $this->view('layouts/header', $data);
         $this->view('layouts/sidebar', $data);
         $this->view('torneos/view', $data);
+        $this->view('layouts/footer');
+    }
+    
+    public function inscribirEquipo($torneoId) {
+        $this->checkRole(['SUPERADMIN', 'ORGANIZADOR', 'DELEGADO']);
+        
+        $torneoModel = $this->model('Torneo');
+        $torneo = $torneoModel->findById($torneoId);
+        
+        if (!$torneo) {
+            $this->setFlash('error', 'Torneo no encontrado');
+            $this->redirect('torneos');
+        }
+        
+        // Verificar que el torneo esté en estado de inscripciones
+        if ($torneo['status'] !== 'INSCRIPCIONES') {
+            $this->setFlash('error', 'El torneo no está aceptando inscripciones');
+            $this->redirect('torneos/detalle/' . $torneoId);
+        }
+        
+        $user = $this->getCurrentUser();
+        
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $equipoId = $_POST['equipo_id'] ?? '';
+            
+            if (empty($equipoId)) {
+                $error = 'Debe seleccionar un equipo';
+            } else {
+                // Verificar si el equipo ya está inscrito
+                $db = Database::getInstance()->getConnection();
+                $stmt = $db->prepare("SELECT COUNT(*) as total FROM inscripciones WHERE torneo_id = :torneo_id AND equipo_id = :equipo_id");
+                $stmt->bindValue(':torneo_id', $torneoId);
+                $stmt->bindValue(':equipo_id', $equipoId);
+                $stmt->execute();
+                $result = $stmt->fetch();
+                
+                if ($result['total'] > 0) {
+                    $error = 'El equipo ya está inscrito en este torneo';
+                } else {
+                    // Inscribir el equipo
+                    $inscripcionData = [
+                        'torneo_id' => $torneoId,
+                        'equipo_id' => $equipoId,
+                        'status' => 'APROBADO',
+                        'grupo' => $_POST['grupo'] ?? null
+                    ];
+                    
+                    $sql = "INSERT INTO inscripciones (torneo_id, equipo_id, status, grupo) 
+                            VALUES (:torneo_id, :equipo_id, :status, :grupo)";
+                    
+                    $stmt = $db->prepare($sql);
+                    $stmt->bindValue(':torneo_id', $inscripcionData['torneo_id']);
+                    $stmt->bindValue(':equipo_id', $inscripcionData['equipo_id']);
+                    $stmt->bindValue(':status', $inscripcionData['status']);
+                    $stmt->bindValue(':grupo', $inscripcionData['grupo']);
+                    
+                    if ($stmt->execute()) {
+                        $this->setFlash('success', 'Equipo inscrito exitosamente');
+                        $this->redirect('torneos/detalle/' . $torneoId);
+                    } else {
+                        $error = 'Error al inscribir el equipo';
+                    }
+                }
+            }
+        }
+        
+        // Obtener equipos disponibles
+        $equipoModel = $this->model('Equipo');
+        
+        // Si es delegado, solo mostrar sus equipos
+        if ($user['rol_nombre'] === 'DELEGADO') {
+            $equiposDisponibles = $equipoModel->getByDelegado($user['id']);
+        } else {
+            $equiposDisponibles = $equipoModel->all(['activo' => 1], 'nombre ASC');
+        }
+        
+        // Filtrar equipos que ya están inscritos
+        $equiposInscritos = $torneoModel->getEquiposInscritos($torneoId);
+        $equiposInscritosIds = array_column($equiposInscritos, 'id');
+        $equiposDisponibles = array_filter($equiposDisponibles, function($equipo) use ($equiposInscritosIds) {
+            return !in_array($equipo['id'], $equiposInscritosIds);
+        });
+        
+        $data = [
+            'title' => 'Inscribir Equipo',
+            'user' => $user,
+            'torneo' => $torneo,
+            'equipos' => $equiposDisponibles,
+            'error' => $error ?? null
+        ];
+        
+        $this->view('layouts/header', $data);
+        $this->view('layouts/sidebar', $data);
+        $this->view('torneos/inscribir_equipo', $data);
         $this->view('layouts/footer');
     }
     

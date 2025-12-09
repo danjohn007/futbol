@@ -1,3 +1,10 @@
+<!-- Flash Message -->
+<?php if ($flash): ?>
+<div class="mb-6 bg-<?= $flash['type'] === 'success' ? 'green' : 'red' ?>-100 border border-<?= $flash['type'] === 'success' ? 'green' : 'red' ?>-400 text-<?= $flash['type'] === 'success' ? 'green' : 'red' ?>-700 px-4 py-3 rounded relative">
+    <span class="block sm:inline"><?= $flash['message'] ?></span>
+</div>
+<?php endif; ?>
+
 <!-- Page Header -->
 <div class="mb-8 flex justify-between items-center">
     <div>
@@ -107,10 +114,10 @@
             <h2 class="text-xl font-bold mb-4">Acciones</h2>
             
             <div class="space-y-2">
-                <a href="#" class="block w-full text-center bg-primary text-white py-2 rounded hover:bg-secondary">
+                <a href="<?= BASE_URL ?>/equipos/agregarJugador/<?= $equipo['id'] ?>" class="block w-full text-center bg-primary text-white py-2 rounded hover:bg-secondary">
                     <i class="fas fa-user-plus mr-2"></i>Agregar Jugador
                 </a>
-                <a href="#" class="block w-full text-center bg-green-500 text-white py-2 rounded hover:bg-green-600">
+                <a href="<?= BASE_URL ?>/equipos/editar/<?= $equipo['id'] ?>" class="block w-full text-center bg-green-500 text-white py-2 rounded hover:bg-green-600">
                     <i class="fas fa-edit mr-2"></i>Editar Equipo
                 </a>
             </div>
