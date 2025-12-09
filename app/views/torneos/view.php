@@ -1,12 +1,27 @@
+<!-- Flash Message -->
+<?php if ($flash): ?>
+<div class="mb-6 bg-<?= $flash['type'] === 'success' ? 'green' : 'red' ?>-100 border border-<?= $flash['type'] === 'success' ? 'green' : 'red' ?>-400 text-<?= $flash['type'] === 'success' ? 'green' : 'red' ?>-700 px-4 py-3 rounded relative">
+    <span class="block sm:inline"><?= $flash['message'] ?></span>
+</div>
+<?php endif; ?>
+
 <!-- Page Header -->
 <div class="mb-8 flex justify-between items-center">
     <div>
         <h1 class="text-3xl font-bold text-gray-800"><?= htmlspecialchars($torneo['nombre']) ?></h1>
         <p class="text-gray-600">Detalles del torneo</p>
     </div>
-    <span class="px-4 py-2 bg-<?= $torneo['status'] === 'ACTIVO' ? 'green' : ($torneo['status'] === 'INSCRIPCIONES' ? 'blue' : 'gray') ?>-100 text-<?= $torneo['status'] === 'ACTIVO' ? 'green' : ($torneo['status'] === 'INSCRIPCIONES' ? 'blue' : 'gray') ?>-800 text-sm font-semibold rounded-full">
-        <?= $torneo['status'] ?>
-    </span>
+    <div class="flex items-center space-x-3">
+        <?php if ($torneo['status'] === 'INSCRIPCIONES' && in_array($user['rol_nombre'], ['SUPERADMIN', 'ORGANIZADOR', 'DELEGADO'])): ?>
+        <a href="<?= BASE_URL ?>/torneos/inscribirEquipo/<?= $torneo['id'] ?>" 
+           class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-secondary">
+            <i class="fas fa-plus mr-2"></i>Inscribir Equipo
+        </a>
+        <?php endif; ?>
+        <span class="px-4 py-2 bg-<?= $torneo['status'] === 'ACTIVO' ? 'green' : ($torneo['status'] === 'INSCRIPCIONES' ? 'blue' : 'gray') ?>-100 text-<?= $torneo['status'] === 'ACTIVO' ? 'green' : ($torneo['status'] === 'INSCRIPCIONES' ? 'blue' : 'gray') ?>-800 text-sm font-semibold rounded-full">
+            <?= $torneo['status'] ?>
+        </span>
+    </div>
 </div>
 
 <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -151,17 +166,25 @@
         
         <!-- Equipos Inscritos -->
         <div class="bg-white rounded-lg shadow-lg p-6">
-            <h2 class="text-xl font-bold mb-4">Equipos Inscritos</h2>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Equipos Inscritos</h2>
+                <span class="text-sm font-semibold text-primary"><?= count($equipos) ?> equipos</span>
+            </div>
             
             <?php if (!empty($equipos)): ?>
             <div class="space-y-2">
                 <?php foreach ($equipos as $equipo): ?>
-                <div class="flex items-center p-2 rounded hover:bg-gray-50">
-                    <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-white text-xs font-bold mr-3">
+                <a href="<?= BASE_URL ?>/equipos/detalle/<?= $equipo['id'] ?>" class="flex items-center p-3 rounded border border-gray-200 hover:bg-gray-50 hover:border-primary transition">
+                    <?php if ($equipo['logo']): ?>
+                    <img src="<?= BASE_URL ?>/<?= $equipo['logo'] ?>" alt="<?= htmlspecialchars($equipo['nombre']) ?>" 
+                         class="w-10 h-10 rounded-full object-cover mr-3">
+                    <?php else: ?>
+                    <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white text-sm font-bold mr-3">
                         <?= strtoupper(substr($equipo['nombre'], 0, 1)) ?>
                     </div>
+                    <?php endif; ?>
                     <div class="flex-1">
-                        <p class="text-sm font-medium"><?= htmlspecialchars($equipo['nombre']) ?></p>
+                        <p class="text-sm font-medium text-gray-800"><?= htmlspecialchars($equipo['nombre']) ?></p>
                         <?php if ($equipo['grupo']): ?>
                         <p class="text-xs text-gray-500">Grupo <?= $equipo['grupo'] ?></p>
                         <?php endif; ?>
@@ -169,11 +192,20 @@
                     <span class="text-xs px-2 py-1 bg-<?= $equipo['inscripcion_status'] === 'APROBADO' ? 'green' : 'yellow' ?>-100 text-<?= $equipo['inscripcion_status'] === 'APROBADO' ? 'green' : 'yellow' ?>-800 rounded">
                         <?= $equipo['inscripcion_status'] ?>
                     </span>
-                </div>
+                </a>
                 <?php endforeach; ?>
             </div>
             <?php else: ?>
-            <p class="text-gray-500 text-sm">No hay equipos inscritos</p>
+            <div class="text-center py-8">
+                <i class="fas fa-users text-4xl text-gray-400 mb-3"></i>
+                <p class="text-gray-500 text-sm">No hay equipos inscritos</p>
+                <?php if ($torneo['status'] === 'INSCRIPCIONES' && in_array($user['rol_nombre'], ['SUPERADMIN', 'ORGANIZADOR', 'DELEGADO'])): ?>
+                <a href="<?= BASE_URL ?>/torneos/inscribirEquipo/<?= $torneo['id'] ?>" 
+                   class="inline-block mt-3 text-primary hover:underline text-sm">
+                    <i class="fas fa-plus mr-1"></i>Inscribir primer equipo
+                </a>
+                <?php endif; ?>
+            </div>
             <?php endif; ?>
         </div>
         
